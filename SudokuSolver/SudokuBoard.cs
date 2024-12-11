@@ -44,7 +44,8 @@ namespace SudokuSolver {
 
         if ((rowCheck == BoardStatus.Unsolvable) || (columnCheck == BoardStatus.Unsolvable) || (squareCheck == BoardStatus.Unsolvable)) {
           return BoardStatus.Unsolvable;
-        } else if ((rowCheck == BoardStatus.Unknown) || (columnCheck == BoardStatus.Unknown) || (squareCheck == BoardStatus.Unknown)) {
+        }
+        else if ((rowCheck == BoardStatus.Unknown) || (columnCheck == BoardStatus.Unknown) || (squareCheck == BoardStatus.Unknown)) {
           status = BoardStatus.Unknown;
         }
       }
@@ -59,9 +60,11 @@ namespace SudokuSolver {
         int n = board[row, i];
         if ((n < 1) || (n > size)) {
           status = BoardStatus.Unknown;
-        } else if (foundNumbers[n]) {
+        }
+        else if (foundNumbers[n]) {
           return BoardStatus.Unsolvable;
-        } else {
+        }
+        else {
           foundNumbers[n] = true;
         }
       }
@@ -75,9 +78,11 @@ namespace SudokuSolver {
         int n = board[i, column];
         if ((n < 1) || (n > size)) {
           status = BoardStatus.Unknown;
-        } else if (foundNumbers[n]) {
+        }
+        else if (foundNumbers[n]) {
           return BoardStatus.Unsolvable;
-        } else {
+        }
+        else {
           foundNumbers[n] = true;
         }
       }
@@ -94,14 +99,35 @@ namespace SudokuSolver {
           int n = board[blockRow * blocks + i, blockColumn * blocks + j];
           if ((n < 1) || (n > size)) {
             status = BoardStatus.Unknown;
-          } else if (foundNumbers[n]) {
+          }
+          else if (foundNumbers[n]) {
             return BoardStatus.Unsolvable;
-          } else {
+          }
+          else {
             foundNumbers[n] = true;
           }
         }
       }
       return status;
+    }
+
+    public override string ToString() {
+      var returnString = "";
+      var smallSquareSize = Math.Sqrt(size);
+
+      for (int row = 0; row < size; row++) {
+        for (int col = 0; col < size; col++) {
+          returnString += board[row, col].ToString() + " ";
+          if (col % smallSquareSize == smallSquareSize - 1 && col < size - 1) {
+            returnString += "|";
+          }
+        }
+        returnString += "\n";
+        if (row % smallSquareSize == smallSquareSize - 1 && row < size - 1) {
+          returnString += "".PadLeft(size * 2 + (int)Math.Sqrt(size) - 1, '-') + "\n";
+        }
+      }
+      return returnString;
     }
   }
 }
